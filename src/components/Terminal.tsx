@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import styles from "../styles/terminal.module.scss";
+import styles from "../styles/Terminal.module.scss";
 
 const commands = (
   base: string = ""
@@ -35,6 +35,12 @@ const commands = (
       </p>
       <p>
         <a href={`${base}/projects`}>projects</a>
+      </p>
+      <p>
+        bio.txt
+      </p>
+      <p>
+        contact.txt
       </p>
     </div>
   ),
