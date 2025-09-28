@@ -1,11 +1,59 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Grid from "../components/Grid.astro";
+import Row from "../components/Row.astro";
+import Button from "../components/Button.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Terminal by Jonas"
+  description="My personal website"
+>
+  <Grid>
+    <Row>
+      <span style="color: var(--theme-focused-foreground);"
+        >Jonas Nicolaysen</span
+      >
+    </Row>
+    <Row>
+      <span style="color: var(--theme-text);"
+        >developing and learning</span
+      >
+    </Row>
+  </Grid>
+
+  <br />
+
+  <Card title="nav">
+    <Grid>
+	  <Row>
+		⭢ <Button href="/blog" variant="ghost">blog/</Button>
+	  </Row>
+      <Row>
+        ⭢ <Button href="/projects" variant="ghost">projects/</Button>
+      </Row>
+      <Row>
+        ⭢ <Button href="/contact" variant="ghost">contact</Button>
+      </Row>
+    </Grid>
+  </Card>
+
+  <Card title="Status">
+    <Grid>
+      <Row>
+        <span style="color: var(--theme-text);">$ uptime</span>
+      </Row>
+      <Row>
+        System: <span style="color: var(--theme-focused-foreground);"
+          >ONLINE</span
+        >
+      </Row>
+      <Row>
+        Last update: <span style="color: var(--theme-text-muted);"
+          >{new Date().toISOString().split("T")[0]}</span
+        >
+      </Row>
+    </Grid>
+  </Card>
 </Layout>

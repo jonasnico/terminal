@@ -1,22 +1,143 @@
+---
+import "../styles/global.scss";
+import ThemeSwitcherAstro from "../components/ThemeSwitcherAstro.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Jonas Nicolaysen - Terminal",
+  description = "Personal webs",
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="theme-black-teal">
+    <div class="container">
+      <header class="header">
+        <nav class="nav">
+          <a href="/" class="nav-link">~/</a>
+          <a href="/blog" class="nav-link">blog/</a>
+          <a href="/projects" class="nav-link">projects/</a>
+          <a href="/contact" class="nav-link">contact</a>
+        </nav>
+        <ThemeSwitcherAstro />
+      </header>
+      <main class="main">
+        <slot />
+      </main>
+    </div>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <style>
+      .container {
+        min-height: 100vh;
+        max-width: 80ch;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--theme-border);
+      }
+
+      .nav {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .nav-link {
+        font-family: var(--font-family-mono);
+        font-size: 14px;
+        color: var(--theme-text);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .nav-link:hover {
+        color: var(--theme-focused-foreground);
+      }
+
+      .main {
+        flex: 1;
+      }
+
+      :global(.theme-switcher-dropdown) {
+        position: relative;
+        display: inline-block;
+      }
+
+      :global(.theme-switcher-button) {
+        background: transparent;
+        border: 1px solid var(--theme-border);
+        color: var(--theme-text);
+        padding: 8px 16px;
+        font-family: var(--font-family-mono);
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 150px;
+        text-align: left;
+      }
+
+      :global(.theme-switcher-button:hover) {
+        border-color: var(--theme-focused-foreground);
+        color: var(--theme-focused-foreground);
+      }
+
+      :global(.theme-dropdown) {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--theme-background);
+        border: 1px solid var(--theme-border);
+        border-top: none;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      :global(.theme-option) {
+        display: block;
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--theme-text);
+        padding: 8px 16px;
+        font-family: var(--font-family-mono);
+        font-size: 14px;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.2s ease;
+      }
+
+      :global(.theme-option:hover) {
+        background: var(--theme-surface);
+        color: var(--theme-focused-foreground);
+      }
+
+      :global(.theme-option.active) {
+        background: var(--theme-focused-background);
+        color: var(--theme-focused-foreground);
+      }
+    </style>
+  </body>
+</html>

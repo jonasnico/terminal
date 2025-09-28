@@ -1,0 +1,179 @@
+---
+import { THEME_OPTIONS, DEFAULT_THEME } from "../constants/themes";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const themeOptions = THEME_OPTIONS;
+---
+
+<div class:list={["theme-switcher-dropdown", className]} data-theme-switcher>
+  <button
+    class="theme-switcher-button"
+    data-theme-button
+    aria-label="Select theme"
+    aria-expanded="false"
+  >
+    <span data-theme-label>Teal Terminal</span> ▼
+  </button>
+
+  <div class="theme-dropdown" data-theme-dropdown style="display: none;">
+    {
+      themeOptions.map((theme) => (
+        <button
+          class="theme-option"
+          data-theme-option={theme.value}
+          data-theme-label={theme.label}
+        >
+          {theme.label}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  function initThemeSwitcher() {
+    const switcher = document.querySelector("[data-theme-switcher]");
+    const button = document.querySelector("[data-theme-button]");
+    const dropdown = document.querySelector("[data-theme-dropdown]");
+    const label = document.querySelector("[data-theme-label]");
+    const options = document.querySelectorAll("[data-theme-option]");
+
+    if (!switcher || !button || !dropdown || !label) return;
+
+    let isOpen = false;
+    let currentTheme = "${DEFAULT_THEME.value}";
+
+    const availableThemes = Array.from(options).map((option) => ({
+      value: option.getAttribute("data-theme-option") || "",
+      label: option.getAttribute("data-theme-label") || "",
+    }));
+
+    const initialTheme = availableThemes.find((theme) =>
+      document.body.classList.contains(theme.value)
+    );
+    if (initialTheme) {
+      currentTheme = initialTheme.value;
+      label.textContent = initialTheme.label;
+    }
+
+    function updateActiveStates() {
+      options.forEach((option) => {
+        const themeValue = option.getAttribute("data-theme-option");
+        option.classList.toggle("active", themeValue === currentTheme);
+      });
+    }
+
+    function toggleDropdown() {
+      isOpen = !isOpen;
+      (dropdown as HTMLElement).style.display = isOpen ? "block" : "none";
+      button!.setAttribute("aria-expanded", isOpen.toString());
+    }
+
+    function selectTheme(themeValue: string, themeLabel: string) {
+      availableThemes.forEach((theme) => {
+        document.body.classList.remove(theme.value);
+      });
+
+      document.body.classList.add(themeValue);
+      currentTheme = themeValue;
+      label!.textContent = themeLabel;
+
+      updateActiveStates();
+      toggleDropdown();
+    }
+
+    button.addEventListener("click", toggleDropdown);
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        const themeValue = option.getAttribute("data-theme-option");
+        const themeLabel = option.getAttribute("data-theme-label");
+        if (themeValue && themeLabel) {
+          selectTheme(themeValue, themeLabel);
+        }
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!switcher.contains(event.target as Node) && isOpen) {
+        toggleDropdown();
+      }
+    });
+
+    updateActiveStates();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initThemeSwitcher);
+  } else {
+    initThemeSwitcher();
+  }
+
+  document.addEventListener("astro:page-load", initThemeSwitcher);
+</script>
+
+<style>
+  .theme-switcher-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .theme-switcher-button {
+    background: transparent;
+    border: 1px solid var(--theme-border);
+    color: var(--theme-text);
+    padding: 8px 16px;
+    font-family: var(--font-family-mono);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 150px;
+    text-align: left;
+  }
+
+  .theme-switcher-button:hover {
+    border-color: var(--theme-focused-foreground);
+    color: var(--theme-focused-foreground);
+  }
+
+  .theme-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--theme-background);
+    border: 1px solid var(--theme-border);
+    border-top: none;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .theme-option {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--theme-text);
+    padding: 8px 16px;
+    font-family: var(--font-family-mono);
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+  }
+
+  .theme-option:hover {
+    background: var(--theme-surface);
+    color: var(--theme-focused-foreground);
+  }
+
+  .theme-option.active {
+    background: var(--theme-focused-background);
+    color: var(--theme-focused-foreground);
+  }
+</style>

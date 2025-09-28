@@ -1,0 +1,64 @@
+---
+interface Props {
+  variant?: "primary" | "secondary" | "ghost";
+  class?: string;
+  href?: string;
+}
+
+const { variant = "primary", class: className, href } = Astro.props;
+const Element = href ? "a" : "button";
+---
+
+<Element href={href} class:list={["btn", `btn--${variant}`, className]}>
+  <slot />
+</Element>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    font-family: var(--font-family-mono);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    text-decoration: none;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+  }
+
+  .btn--primary {
+    color: var(--theme-text);
+    border-color: var(--theme-border);
+    background: var(--theme-background);
+  }
+
+  .btn--primary:hover {
+    color: var(--theme-focused-foreground);
+    border-color: var(--theme-focused-foreground);
+    background: var(--theme-focused-background);
+  }
+
+  .btn--secondary {
+    color: var(--theme-text-muted);
+    border-color: var(--theme-border-muted);
+  }
+
+  .btn--secondary:hover {
+    color: var(--theme-text);
+    border-color: var(--theme-border);
+  }
+
+  .btn--ghost {
+    border: none;
+    background: transparent;
+    color: var(--theme-text-muted);
+  }
+
+  .btn--ghost:hover {
+    color: var(--theme-text);
+  }
+</style>

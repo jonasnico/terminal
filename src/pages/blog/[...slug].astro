@@ -1,0 +1,194 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("blog");
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout
+  title={`${post.data.title} - Jonas N`}
+  description={post.data.description}
+>
+  <Card title={`$ cat ${post.slug}.md`}>
+    <article class="blog-post">
+      <header class="post-header">
+        <div class="post-meta">
+          <span class="date"
+            >[{post.data.date.toISOString().split("T")[0]}]</span
+          >
+          <span class="author">by {post.data.author}</span>
+        </div>
+        {
+          post.data.tags && (
+            <div class="tags">
+              {post.data.tags.map((tag) => (
+                <span class="tag">#{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      <div class="post-content">
+        <Content />
+      </div>
+
+      <footer class="post-footer">
+        <a href="/blog" class="back-link">← Back to blog</a>
+      </footer>
+    </article>
+  </Card>
+</Layout>
+
+<style>
+  .blog-post {
+    max-width: none;
+  }
+
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .date {
+    color: var(--theme-text-muted);
+  }
+
+  .author {
+    color: var(--theme-accent);
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    color: var(--theme-text-muted);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+
+  .post-content {
+    line-height: 1.7;
+  }
+
+  .post-content :global(h1) {
+    color: var(--theme-accent);
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem 0;
+    border-bottom: 2px solid var(--theme-accent);
+    padding-bottom: 0.5rem;
+  }
+
+  .post-content :global(h2) {
+    color: var(--theme-accent);
+    font-size: 1.4rem;
+    margin: 1.5rem 0 0.75rem 0;
+  }
+
+  .post-content :global(h3) {
+    color: var(--theme-text);
+    font-size: 1.2rem;
+    margin: 1.25rem 0 0.5rem 0;
+  }
+
+  .post-content :global(p) {
+    margin: 0.75rem 0;
+    color: var(--theme-text);
+  }
+
+  .post-content :global(code) {
+    background: var(--theme-bg-alt);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    color: var(--theme-accent);
+    font-size: 0.9em;
+  }
+
+  .post-content :global(pre) {
+    background: var(--theme-bg-alt);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--theme-border);
+  }
+
+  .post-content :global(pre code) {
+    background: none;
+    padding: 0;
+    color: var(--theme-text);
+  }
+
+  .post-content :global(a) {
+    color: var(--theme-accent);
+    text-decoration: none;
+  }
+
+  .post-content :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin: 0.75rem 0;
+    padding-left: 2rem;
+  }
+
+  .post-content :global(li) {
+    margin: 0.25rem 0;
+    color: var(--theme-text);
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 4px solid var(--theme-accent);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: var(--theme-text-muted);
+    font-style: italic;
+  }
+
+  .post-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--theme-border);
+    margin: 2rem 0;
+  }
+
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .back-link {
+    color: var(--theme-accent);
+    text-decoration: none;
+    font-family: var(--font-mono);
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>

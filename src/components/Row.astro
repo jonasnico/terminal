@@ -1,0 +1,24 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["row", className]}>
+  <slot />
+</div>
+
+<style>
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 0;
+    font-family: var(--font-family-mono);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--theme-text);
+  }
+</style>

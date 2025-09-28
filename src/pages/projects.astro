@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Grid from "../components/Grid.astro";
+import Row from "../components/Row.astro";
+---
+
+<Layout
+  title="Projects - Jonas"
+  description="My projects"
+>
+  <Card title="projects">
+    <Grid>
+      <Row>
+        <strong>My personal site</strong> - This very website you're browsing
+      </Row>
+      <Row>
+        <strong>Open Source</strong> - Aspiring to contribute
+      </Row>
+      <Row>
+        <strong>Oslo quizzes</strong> - <a href="https://oslo-quiz.vercel.app/quiz" target="_blank" rel="noopener noreferrer">Here</a>
+      </Row>
+    </Grid>
+  </Card>
+</Layout>

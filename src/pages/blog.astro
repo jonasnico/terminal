@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Grid from "../components/Grid.astro";
+import Row from "../components/Row.astro";
+import { getCollection } from "astro:content";
+
+// Get all blog posts and sort by date (newest first)
+const blogPosts = await getCollection("blog", ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedPosts = blogPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Layout title="Blog - Jonas N" description="A place to hold my thoughts">
+  <Card title="$ tail -f blog.log">
+    <Grid>
+      {
+        sortedPosts.map((post) => (
+          <>
+            <Row>
+              <span style="color: var(--theme-text-muted);">
+                [{post.data.date.toISOString().split("T")[0]}]
+              </span>
+              <strong>
+                <a
+                  href={`/blog/${post.slug}`}
+                  style="color: var(--theme-accent); text-decoration: none;"
+                >
+                  {post.data.title}
+                </a>
+              </strong>
+            </Row>
+            <Row>
+              <span style="color: var(--theme-text-muted); margin-left: 1rem;">
+                {post.data.description}
+              </span>
+            </Row>
+          </>
+        ))
+      }
+      {
+        sortedPosts.length === 0 && (
+          <Row>
+            <span style="color: var(--theme-text-muted);">
+              // No blog posts found...
+            </span>
+          </Row>
+        )
+      }
+    </Grid>
+  </Card>
+</Layout>
