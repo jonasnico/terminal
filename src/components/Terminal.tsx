@@ -78,27 +78,15 @@ const commands = (
 
 const Terminal = ({ base }: { base?: string }) => {
   const commandFunctions = commands(base);
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState<any[]>([]);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const endOfHistoryRef = useRef<HTMLDivElement>(null);
-  const isInitialMount = useRef(true);
-
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      if (endOfHistoryRef.current) {
-        endOfHistoryRef.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    }, 100);
-  };
+  const terminalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      scrollToBottom();
+    const terminal = terminalRef.current;
+    if (terminal) {
+      terminal.scrollTop = terminal.scrollHeight;
     }
   }, [history]);
 
@@ -110,7 +98,7 @@ const Terminal = ({ base }: { base?: string }) => {
     if (e.key === "Enter") {
       const command = input.trim().toLowerCase();
       if (command) {
-        const newHistory: any = [...history, { command, output: null }];
+        const newHistory = [...history, { command, output: null }];
         if (command === "clear") {
           setHistory([]);
         } else if (commandFunctions[command]) {
@@ -138,9 +126,13 @@ const Terminal = ({ base }: { base?: string }) => {
   }, []);
 
   return (
-    <div className={styles.terminal} onClick={() => inputRef.current?.focus()}>
+    <div
+      ref={terminalRef}
+      className={styles.terminal}
+      onClick={() => inputRef.current?.focus()}
+    >
       <div className={styles.history}>
-        {history.map((item: any, index) => (
+        {history.map((item, index) => (
           <div key={index}>
             <div className={styles.promptLine}>
               <span className={styles.prompt}>$</span>
@@ -149,7 +141,6 @@ const Terminal = ({ base }: { base?: string }) => {
             {item.output && <div className={styles.output}>{item.output}</div>}
           </div>
         ))}
-        <div ref={endOfHistoryRef} />
       </div>
       <div className={styles.promptLine}>
         <span className={styles.prompt}>$</span>
