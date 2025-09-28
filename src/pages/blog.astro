@@ -5,7 +5,8 @@ import Grid from "../components/Grid.astro";
 import Row from "../components/Row.astro";
 import { getCollection } from "astro:content";
 
-// Get all blog posts and sort by date (newest first)
+const base = import.meta.env.BASE_URL;
+
 const blogPosts = await getCollection("blog", ({ data }) => {
   return data.draft !== true;
 });
@@ -27,7 +28,7 @@ const sortedPosts = blogPosts.sort(
               </span>
               <strong>
                 <a
-                  href={`/blog/${post.slug}`}
+                  href={`${base}/blog/${post.slug}`}
                   style="color: var(--theme-accent); text-decoration: none;"
                 >
                   {post.data.title}

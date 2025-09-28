@@ -11,13 +11,15 @@ const {
   title = "Jonas Nicolaysen - Terminal",
   description = "Personal webs",
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -27,10 +29,10 @@ const {
     <div class="container">
       <header class="header">
         <nav class="nav">
-          <a href="/" class="nav-link">~/</a>
-          <a href="/blog" class="nav-link">blog/</a>
-          <a href="/projects" class="nav-link">projects/</a>
-          <a href="/contact" class="nav-link">contact</a>
+          <a href={base} class="nav-link">~/</a>
+          <a href={`${base}/blog`} class="nav-link">blog/</a>
+          <a href={`${base}/projects`} class="nav-link">projects/</a>
+          <a href={`${base}/contact`} class="nav-link">contact</a>
         </nav>
         <ThemeSwitcherAstro />
       </header>
