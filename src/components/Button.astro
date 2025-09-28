@@ -3,13 +3,14 @@ interface Props {
   variant?: "primary" | "secondary" | "ghost";
   class?: string;
   href?: string;
+  id?: string;
 }
 
-const { variant = "primary", class: className, href } = Astro.props;
+const { variant = "primary", class: className, href, id } = Astro.props;
 const Element = href ? "a" : "button";
 ---
 
-<Element href={href} class:list={["btn", `btn--${variant}`, className]}>
+<Element href={href} id={id} class:list={["btn", `btn--${variant}`, className]}>
   <slot />
 </Element>
 

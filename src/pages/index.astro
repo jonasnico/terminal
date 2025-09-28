@@ -4,6 +4,8 @@ import Card from "../components/Card.astro";
 import Grid from "../components/Grid.astro";
 import Row from "../components/Row.astro";
 import Button from "../components/Button.astro";
+import Modal from "../components/Modal.astro";
+import ModalMatrixModes from "../components/ModalMatrixModes.astro";
 
 const base = import.meta.env.BASE_URL;
 ---
@@ -53,4 +55,36 @@ const base = import.meta.env.BASE_URL;
       </Row>
     </Grid>
   </Card>
+
+  <Card title="Matrix">
+    <Button id="open-modal-button">Engage</Button>
+  </Card>
+
+  <Modal>
+    <ModalMatrixModes />
+  </Modal>
 </Layout>
+
+<script>
+  const openModalButton = document.getElementById("open-modal-button");
+  const modalBackdrop = document.getElementById("modal-backdrop");
+
+  if (openModalButton && modalBackdrop) {
+    openModalButton.addEventListener("click", () => {
+      modalBackdrop.classList.add("is-open");
+    });
+
+    modalBackdrop.addEventListener("click", (event) => {
+      if (event.target === modalBackdrop) {
+        modalBackdrop.classList.remove("is-open");
+      }
+    });
+
+    const closeButton = modalBackdrop.querySelector("button");
+    if (closeButton) {
+      closeButton.addEventListener("click", () => {
+        modalBackdrop.classList.remove("is-open");
+      });
+    }
+  }
+</script>
