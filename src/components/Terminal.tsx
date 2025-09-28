@@ -82,13 +82,24 @@ const Terminal = ({ base }: { base?: string }) => {
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   const scrollToBottom = () => {
-    endOfHistoryRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      if (endOfHistoryRef.current) {
+        endOfHistoryRef.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      scrollToBottom();
+    }
   }, [history]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,7 +108,7 @@ const Terminal = ({ base }: { base?: string }) => {
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const command = input.trim();
+      const command = input.trim().toLowerCase();
       if (command) {
         const newHistory: any = [...history, { command, output: null }];
         if (command === "clear") {
