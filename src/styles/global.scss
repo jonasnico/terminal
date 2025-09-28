@@ -146,12 +146,12 @@ a {
 
   &:hover {
     background: var(--theme-focused-foreground);
-    color: var(--theme-text);
+    color: var(--theme-background);
   }
 
   &:focus {
     background: var(--theme-focused-foreground);
-    color: var(--theme-text);
+    color: var(--theme-background);
     outline: 0;
   }
 }
