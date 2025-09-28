@@ -1,0 +1,97 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  image?: string;
+  tags?: string[];
+}
+
+const { href, title, description, image, tags } = Astro.props;
+---
+
+<a href={href} class="card-link">
+  <div class="card">
+    {image && <img src={image} alt={title} class="card-image" />}
+    <div class="card-content">
+      <h3 class="card-title">{title}</h3>
+      <p class="card-description">{description}</p>
+      {
+        tags && tags.length > 0 && (
+          <div class="card-tags">
+            {tags.map((tag) => (
+              <span class="card-tag">{tag}</span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</a>
+
+<style>
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border: 1px solid var(--theme-border);
+    background-color: var(--theme-surface);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .card-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .card-content {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    color: var(--theme-accent-2);
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-family-mono);
+  }
+
+  .card-description {
+    font-size: 1rem;
+    color: var(--theme-text-muted);
+    flex: 1;
+  }
+
+  .card-tags {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .card-tag {
+    background-color: rgba(var(--theme-accent-rgb), 0.1);
+    color: var(--theme-accent);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-family: var(--font-family-mono);
+  }
+</style>

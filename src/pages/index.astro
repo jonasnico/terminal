@@ -23,15 +23,16 @@ const commitTime = new Date().toLocaleTimeString("en-US", {
 });
 ---
 
-<Layout title="Terminal by Jonas" description="My personal website">
+<Layout title="Terminal by Jonas" description="Terminally ill, terminal thrill">
   <Grid>
     <Row>
-      <span style="color: var(--theme-focused-foreground);"
-        >Jonas Nicolaysen</span
-      >
+      <span class="text-focused">Jonas Nicolaysen</span>
     </Row>
     <Row>
-      <span style="color: var(--theme-text);">yes, that is my name :-)</span>
+      <span class="text-primary">just casually namedropping myself</span>
+    </Row>
+    <Row>
+      <span class="text-primary">drop a terminal command below</span>
     </Row>
   </Grid>
 
@@ -44,21 +45,16 @@ const commitTime = new Date().toLocaleTimeString("en-US", {
   <Card title="Latest Activity">
     <Grid>
       <Row>
-        <span style="color: var(--theme-text);">$ git log -1</span>
+        <span class="text-primary">$ git log -1</span>
       </Row>
       <Row>
-        Branch: <span style="color: var(--theme-focused-foreground);">main</span
-        >
+        Branch: <span class="text-focused">main</span>
       </Row>
       <Row>
-        Latest commit: <span style="color: var(--theme-text-muted);"
-          >"{commitMessage}"</span
-        >
+        Latest commit: <span class="text-muted">"{commitMessage}"</span>
       </Row>
       <Row>
-        <span style="color: var(--theme-text-muted);"
-          >{commitDate} {commitTime}</span
-        >
+        <span class="text-muted">{commitDate} {commitTime}</span>
       </Row>
     </Grid>
   </Card>
@@ -95,3 +91,15 @@ const commitTime = new Date().toLocaleTimeString("en-US", {
     }
   }
 </script>
+
+<style>
+  .text-focused {
+    color: var(--theme-focused-foreground);
+  }
+  .text-primary {
+    color: var(--theme-text);
+  }
+  .text-muted {
+    color: var(--theme-text-muted);
+  }
+</style>

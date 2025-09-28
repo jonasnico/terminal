@@ -1,8 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
-import Grid from "../components/Grid.astro";
-import Row from "../components/Row.astro";
+import ShowcaseCard from "../components/ShowcaseCard.astro";
 import { getCollection } from "astro:content";
 
 const base = import.meta.env.BASE_URL;
@@ -17,41 +15,41 @@ const sortedPosts = blogPosts.sort(
 ---
 
 <Layout title="Blog - Jonas N" description="A place to hold my thoughts">
-  <Card title="$ tail -f blog.log">
-    <Grid>
-      {
-        sortedPosts.map((post) => (
-          <>
-            <Row>
-              <span style="color: var(--theme-text-muted);">
-                [{post.data.date.toISOString().split("T")[0]}]
-              </span>
-              <strong>
-                <a
-                  href={`${base}/blog/${post.slug}`}
-                  style="color: var(--theme-accent); text-decoration: none;"
-                >
-                  {post.data.title}
-                </a>
-              </strong>
-            </Row>
-            <Row>
-              <span style="color: var(--theme-text-muted); margin-left: 1rem;">
-                {post.data.description}
-              </span>
-            </Row>
-          </>
-        ))
-      }
-      {
-        sortedPosts.length === 0 && (
-          <Row>
-            <span style="color: var(--theme-text-muted);">
-              // No blog posts found...
-            </span>
-          </Row>
-        )
-      }
-    </Grid>
-  </Card>
+  <h1>Blog</h1>
+  <p class="subtitle">A collection of thoughts and explorations.</p>
+  <div class="card-grid">
+    {
+      sortedPosts.map((post) => (
+        <ShowcaseCard
+          href={`${base}/blog/${post.slug}`}
+          title={post.data.title}
+          description={post.data.description}
+          image={post.data.image}
+          tags={post.data.tags}
+        />
+      ))
+    }
+    {sortedPosts.length === 0 && <p>No blog posts found...</p>}
+  </div>
 </Layout>
+
+<style>
+  h1 {
+    font-size: 2.5rem;
+    color: var(--theme-accent-2);
+    font-family: var(--font-family-mono);
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: var(--theme-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+</style>

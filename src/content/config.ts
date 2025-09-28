@@ -8,6 +8,7 @@ const blog = defineCollection({
     date: z.coerce.date(),
     author: z.string().default("Jonas Nicolaysen"),
     tags: z.array(z.string()).optional(),
+    image: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

@@ -1,25 +1,61 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
-import Grid from "../components/Grid.astro";
-import Row from "../components/Row.astro";
+import ShowcaseCard from "../components/ShowcaseCard.astro";
+
+const projects = [
+  {
+    href: "https://github.com/jonasnico/terminal",
+    title: "This Website",
+    description:
+      "The website you are currently browsing. Links you to the GitHub repo.",
+    image: "/src/assets/astro.svg",
+    tags: ["Astro", "TypeScript", "React", "SCSS"],
+  },
+  {
+    href: "https://oslo-quiz.vercel.app/quiz",
+    title: "Oslo Quizzes",
+    description: "An application to look up quizzes in Oslo",
+    image: "/src/assets/background.svg",
+    tags: ["Next.js", "React", "Supabase"],
+  },
+];
 ---
 
-<Layout
-  title="Projects - Jonas"
-  description="My projects"
->
-  <Card title="projects">
-    <Grid>
-      <Row>
-        <strong>My personal site</strong> - This very website you're browsing
-      </Row>
-      <Row>
-        <strong>Open Source</strong> - Aspiring to contribute
-      </Row>
-      <Row>
-        <strong>Oslo quizzes</strong> - <a href="https://oslo-quiz.vercel.app/quiz" target="_blank" rel="noopener noreferrer">Here</a>
-      </Row>
-    </Grid>
-  </Card>
+<Layout title="Projects - Jonas N" description="A showcase of my work">
+  <h1>Projects</h1>
+  <p class="subtitle">A selection of projects I've worked on.</p>
+  <div class="card-grid">
+    {
+      projects.map((project) => (
+        <ShowcaseCard
+          href={project.href}
+          title={project.title}
+          description={project.description}
+          image={project.image}
+          tags={project.tags}
+        />
+      ))
+    }
+  </div>
 </Layout>
+
+<style>
+  h1 {
+    font-size: 2.5rem;
+    color: var(--theme-accent-2);
+    font-family: var(--font-family-mono);
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: var(--theme-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+</style>
