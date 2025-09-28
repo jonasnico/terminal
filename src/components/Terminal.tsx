@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import styles from "../styles/Terminal.module.scss";
+import styles from "./Terminal.module.scss";
 
 const commands = (
   base: string = ""

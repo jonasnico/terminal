@@ -1,4 +1,4 @@
-import styles from "../styles/MatrixLoader.module.scss";
+import styles from "./MatrixLoader.module.scss";
 import * as React from "react";
 
 interface MatrixLoaderProps {

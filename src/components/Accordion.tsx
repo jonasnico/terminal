@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "../styles/Accordion.module.scss";
+import styles from "./Accordion.module.scss";
 
 interface AccordionProps {
   defaultValue?: boolean;
