@@ -45,19 +45,43 @@ const themeOptions = THEME_OPTIONS;
     if (!switcher || !button || !dropdown || !label) return;
 
     let isOpen = false;
-    let currentTheme = "${DEFAULT_THEME.value}";
+    let currentTheme = "${DEFAULT_THEME}";
 
     const availableThemes = Array.from(options).map((option) => ({
       value: option.getAttribute("data-theme-option") || "",
       label: option.getAttribute("data-theme-label") || "",
     }));
 
-    const initialTheme = availableThemes.find((theme) =>
-      document.body.classList.contains(theme.value)
-    );
-    if (initialTheme) {
-      currentTheme = initialTheme.value;
-      label.textContent = initialTheme.label;
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme && availableThemes.find((t) => t.value === savedTheme)) {
+      availableThemes.forEach((theme) => {
+        document.body.classList.remove(theme.value);
+      });
+      document.body.classList.add(savedTheme);
+      currentTheme = savedTheme;
+      const savedThemeOption = availableThemes.find(
+        (t) => t.value === savedTheme
+      );
+      if (savedThemeOption) {
+        label.textContent = savedThemeOption.label;
+      }
+    } else {
+      const initialTheme = availableThemes.find((theme) =>
+        document.body.classList.contains(theme.value)
+      );
+      if (initialTheme) {
+        currentTheme = initialTheme.value;
+        label.textContent = initialTheme.label;
+      } else {
+        currentTheme = "${DEFAULT_THEME}";
+        const defaultThemeOption = availableThemes.find(
+          (t) => t.value === currentTheme
+        );
+        if (defaultThemeOption) {
+          label.textContent = defaultThemeOption.label;
+        }
+      }
+      localStorage.setItem("theme", currentTheme);
     }
 
     function updateActiveStates() {
@@ -81,6 +105,7 @@ const themeOptions = THEME_OPTIONS;
       document.body.classList.add(themeValue);
       currentTheme = themeValue;
       label!.textContent = themeLabel;
+      localStorage.setItem("theme", themeValue);
 
       updateActiveStates();
       toggleDropdown();

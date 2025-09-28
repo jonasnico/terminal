@@ -9,12 +9,22 @@ export default function ThemeSwitcher() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
     const body = document.body;
-    const currentThemeClass = themeOptions.find((theme) =>
-      body.classList.contains(theme.value)
-    );
-    if (currentThemeClass) {
-      setCurrentTheme(currentThemeClass.value);
+
+    if (savedTheme && themeOptions.find((t) => t.value === savedTheme)) {
+      themeOptions.forEach((theme) => {
+        body.classList.remove(theme.value);
+      });
+      body.classList.add(savedTheme);
+      setCurrentTheme(savedTheme);
+    } else {
+      const currentThemeClass = themeOptions.find((theme) =>
+        body.classList.contains(theme.value)
+      );
+      const initialTheme = currentThemeClass?.value || DEFAULT_THEME;
+      setCurrentTheme(initialTheme);
+      localStorage.setItem("theme", initialTheme);
     }
   }, []);
 
@@ -39,6 +49,7 @@ export default function ThemeSwitcher() {
 
     document.body.classList.add(theme);
     setCurrentTheme(theme);
+    localStorage.setItem("theme", theme);
     setIsOpen(false);
   };
 
