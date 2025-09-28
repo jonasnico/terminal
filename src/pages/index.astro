@@ -6,8 +6,21 @@ import Row from "../components/Row.astro";
 import Button from "../components/Button.astro";
 import Modal from "../components/Modal.astro";
 import ModalMatrixModes from "../components/ModalMatrixModes.astro";
+import Terminal from "../components/Terminal.tsx";
+import { execa } from "execa";
 
 const base = import.meta.env.BASE_URL;
+const { stdout: commitInfo } = await execa("git", [
+  "log",
+  "-1",
+  "--pretty=%s|%cd",
+  "--date=short",
+]);
+const [commitMessage, commitDate] = commitInfo.split("|");
+const commitTime = new Date().toLocaleTimeString("en-US", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
 ---
 
 <Layout title="Terminal by Jonas" description="My personal website">
@@ -18,39 +31,33 @@ const base = import.meta.env.BASE_URL;
       >
     </Row>
     <Row>
-      <span style="color: var(--theme-text);">developing and learning</span>
+      <span style="color: var(--theme-text);">yes, that is my name :-)</span>
     </Row>
   </Grid>
 
   <br />
 
-  <Card title="links">
-    <Grid>
-      <Row>
-        ⭢ <Button href={`${base}/blog`} variant="ghost">blog</Button>
-      </Row>
-      <Row>
-        ⭢ <Button href={`${base}/projects`} variant="ghost">projects</Button>
-      </Row>
-      <Row>
-        ⭢ <Button href={`${base}/contact`} variant="ghost">contact</Button>
-      </Row>
-    </Grid>
-  </Card>
+  <Terminal client:load base={base} />
 
-  <Card title="Status">
+  <br />
+
+  <Card title="Latest Activity">
     <Grid>
       <Row>
-        <span style="color: var(--theme-text);">$ uptime</span>
+        <span style="color: var(--theme-text);">$ git log -1</span>
       </Row>
       <Row>
-        System: <span style="color: var(--theme-focused-foreground);"
-          >ONLINE</span
+        Branch: <span style="color: var(--theme-focused-foreground);">main</span
         >
       </Row>
       <Row>
-        Last update: <span style="color: var(--theme-text-muted);"
-          >{new Date().toISOString().split("T")[0]}</span
+        Latest commit: <span style="color: var(--theme-text-muted);"
+          >"{commitMessage}"</span
+        >
+      </Row>
+      <Row>
+        <span style="color: var(--theme-text-muted);"
+          >{commitDate} {commitTime}</span
         >
       </Row>
     </Grid>

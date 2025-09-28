@@ -1,0 +1,49 @@
+.terminal {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  border: 1px solid var(--theme-border);
+  padding: 1rem;
+  font-family: "Courier New", Courier, monospace;
+  overflow-y: auto;
+  height: 300px;
+}
+
+.history {
+  margin-bottom: 1rem;
+}
+
+.promptLine {
+  display: flex;
+  align-items: center;
+}
+
+.prompt {
+  color: var(--theme-accent);
+  margin-right: 0.5rem;
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+  color: var(--theme-text);
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  width: 100%;
+}
+
+.output {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.helpList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.command {
+  color: var(--theme-accent-2);
+  font-weight: bold;
+}
