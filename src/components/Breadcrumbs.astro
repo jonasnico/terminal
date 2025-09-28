@@ -1,0 +1,72 @@
+---
+interface BreadCrumbsItem {
+  url?: string;
+  name: string;
+}
+
+interface Props {
+  items: BreadCrumbsItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="breadcrumb" class="breadcrumbs-root">
+  {
+    items.map((item, index) => (
+      <span class="breadcrumbs-line">
+        <a
+          class="breadcrumbs-link"
+          href={item.url}
+          target="_blank"
+          tabindex="0"
+          role="link"
+        >
+          {item.name}
+        </a>
+        {index < items.length - 1 && (
+          <span class="breadcrumbs-symbol"> ❯ </span>
+        )}
+      </span>
+    ))
+  }
+</nav>
+
+<style lang="scss">
+  .breadcrumbs-root {
+    display: inline-block;
+  }
+
+  .breadcrumbs-line {
+    display: inline-block;
+    line-height: calc(var(--theme-line-height-base) * 1rem);
+  }
+
+  .breadcrumbs-link {
+    display: inline-block;
+    color: var(--theme-text);
+    outline: 0;
+    border: 0;
+    text-decoration: none;
+    background: var(--theme-border);
+
+    &:hover {
+      color: var(--theme-text);
+      background: var(--theme-focused-foreground);
+    }
+
+    &:visited {
+      color: var(--theme-text);
+    }
+
+    &:focus {
+      background: var(--theme-focused-foreground);
+    }
+  }
+
+  .breadcrumbs-symbol {
+    min-width: 1ch;
+    display: inline-block;
+    margin: 0 1ch 0 1ch;
+  }
+</style>
