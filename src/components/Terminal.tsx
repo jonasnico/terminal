@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./Terminal.module.scss";
+import { routes } from "../constants/routes";
 
 const commands = (
   base: string = ""
@@ -13,6 +14,10 @@ const commands = (
         </li>
         <li>
           <span className={styles.command}>ls</span> - List available pages
+        </li>
+        <li>
+          <span className={styles.command}>cd &lt;page&gt;</span> - Navigate to
+          a page (e.g., cd blog, cd projects)
         </li>
         <li>
           <span className={styles.command}>cat &lt;file&gt;</span> - Display
@@ -36,12 +41,8 @@ const commands = (
       <p>
         <a href={`${base}/projects`}>projects</a>
       </p>
-      <p>
-        bio.txt
-      </p>
-      <p>
-        contact.txt
-      </p>
+      <p>bio.txt</p>
+      <p>contact.txt</p>
     </div>
   ),
   "cat bio.txt": () => <p>My name is Jonas and I am a developer from Norway</p>,
@@ -105,7 +106,27 @@ const Terminal = ({ base }: { base?: string }) => {
       const command = input.trim().toLowerCase();
       if (command) {
         const newHistory = [...history, { command, output: null }];
-        if (command === "clear") {
+
+        if (command.startsWith("cd ")) {
+          const path = command.substring(3).trim();
+          const validRoutes = routes;
+
+          if (!path || path === "~" || path === "/") {
+            window.location.href = base || "/";
+            return;
+          } else if (validRoutes.includes(path)) {
+            window.location.href = `${base || ""}/${path}`;
+            return;
+          } else {
+            newHistory[newHistory.length - 1].output = (
+              <div>
+                <p>cd: no such page: {path}</p>
+                <p>Available pages: {validRoutes.join(", ")}</p>
+              </div>
+            );
+            setHistory(newHistory);
+          }
+        } else if (command === "clear") {
           setHistory([]);
         } else if (commandFunctions[command]) {
           newHistory[newHistory.length - 1].output =
