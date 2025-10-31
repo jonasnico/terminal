@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ShowcaseCard from "../components/ShowcaseCard.astro";
+import astroImage from "../assets/astro.svg";
+import backgroundImage from "../assets/background.svg";
 
 const projects = [
   {
@@ -8,14 +10,14 @@ const projects = [
     title: "This Website",
     description:
       "The website you are currently browsing. Links you to the GitHub repo.",
-    image: "/src/assets/astro.svg",
+    image: astroImage.src,
     tags: ["Astro", "TypeScript", "React", "SCSS"],
   },
   {
     href: "https://oslo-quiz.vercel.app/quiz",
     title: "Oslo Quizzes",
     description: "An application to look up quizzes in Oslo",
-    image: "/src/assets/background.svg",
+    image: backgroundImage.src,
     tags: ["Next.js", "React", "Supabase"],
   },
 ];
