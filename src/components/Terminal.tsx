@@ -17,7 +17,7 @@ const commands = (
         </li>
         <li>
           <span className={styles.command}>cd &lt;page&gt;</span> - Navigate to
-          a page (e.g., cd blog, cd projects)
+          a page (e.g., cd words, cd stuff)
         </li>
         <li>
           <span className={styles.command}>cat &lt;file&gt;</span> - Display
@@ -36,10 +36,10 @@ const commands = (
   ls: () => (
     <div>
       <p>
-        <a href={`${base}/blog`}>blog</a>
+        <a href={`${base}/words`}>words</a>
       </p>
       <p>
-        <a href={`${base}/projects`}>projects</a>
+        <a href={`${base}/stuff`}>stuff</a>
       </p>
       <p>bio.txt</p>
       <p>contact.txt</p>
