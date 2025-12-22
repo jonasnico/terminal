@@ -13,10 +13,10 @@
     "@astrojs/react": "^4.4.2",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
-    "astro": "^5.16.0",
+    "astro": "^5.16.5",
     "execa": "^9.6.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "sass": "^1.93.3"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "sass": "^1.96.0"
   }
 }
