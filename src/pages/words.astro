@@ -21,7 +21,7 @@ const sortedPosts = wordPosts.sort(
     {
       sortedPosts.map((post) => (
         <ShowcaseCard
-          href={`${base}/words/${post.slug}`}
+          href={`${base}/words/${post.id}`}
           title={post.data.title}
           description={post.data.description}
           image={post.data.image}
