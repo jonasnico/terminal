@@ -1,20 +1,22 @@
 ---
 interface Props {
   href: string;
+  sourceHref?: string;
   title: string;
   description: string;
   image?: string;
   tags?: string[];
 }
 
-const { href, title, description, image, tags } = Astro.props;
+const { href, sourceHref, title, description, image, tags } = Astro.props;
+const Tag = sourceHref ? "article" : "a";
 ---
 
-<a href={href} class="card-link">
+<Tag href={sourceHref ? undefined : href} class="card-link">
   <div class="card">
     {image && <img src={image} alt={title} class="card-image" />}
     <div class="card-content">
-      <h3 class="card-title">{title}</h3>
+      <h2 class="card-title">{title}</h2>
       <p class="card-description">{description}</p>
       {
         tags && tags.length > 0 && (
@@ -25,30 +27,45 @@ const { href, title, description, image, tags } = Astro.props;
           </div>
         )
       }
+      {
+        sourceHref && (
+          <div class="card-actions">
+            {href !== sourceHref && (
+              <a href={href} aria-label={`Live demo of ${title}`}>Live demo</a>
+            )}
+            <a href={sourceHref} aria-label={`View ${title} on GitHub`}>GitHub</a>
+          </div>
+        )
+      }
     </div>
   </div>
-</a>
+</Tag>
 
 <style>
   .card-link {
     text-decoration: none;
     color: inherit;
     display: block;
+    min-width: 0;
     border: 1px solid var(--theme-border);
     background-color: var(--theme-surface);
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
   }
 
-  .card-link:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  .card-link:hover,
+  .card-link:focus-within {
+    border-color: var(--theme-text);
+  }
+
+  a.card-link:hover,
+  a.card-link:focus {
+    background: var(--theme-surface);
+    color: inherit;
   }
 
   .card {
     display: flex;
     flex-direction: column;
+    line-height: 1.5;
     height: 100%;
   }
 
@@ -64,12 +81,13 @@ const { href, title, description, image, tags } = Astro.props;
     flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
   }
 
   .card-title {
     font-size: 1.25rem;
     color: var(--theme-accent-2);
-    margin: 0 0 0.5rem 0;
+    margin: 0;
     font-family: var(--font-family-mono);
   }
 
@@ -80,18 +98,30 @@ const { href, title, description, image, tags } = Astro.props;
   }
 
   .card-tags {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
   .card-tag {
-    background-color: rgba(var(--theme-accent-rgb), 0.1);
-    color: var(--theme-accent);
+    background-color: var(--theme-border-subdued);
+    color: var(--theme-text);
     padding: 0.25rem 0.5rem;
-    border-radius: 4px;
     font-size: 0.875rem;
     font-family: var(--font-family-mono);
+  }
+
+  .card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .card-actions a {
+    padding-block: 0.25rem;
+    text-underline-offset: 0.2em;
   }
 </style>

@@ -156,6 +156,15 @@ a {
   }
 }
 
+:focus-visible {
+  outline: 2px solid var(--theme-text);
+  outline-offset: 4px;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--theme-text);
+}
+
 ul {
   list-style-position: inside;
   list-style-type: '▪';
@@ -502,6 +511,11 @@ body {
   --font-family-serif: Georgia, Times New Roman, serif;
 
   --theme-text: var(--color-black-100);
+  --theme-text-muted: color-mix(in srgb, var(--theme-text) 90%, var(--theme-background));
+  --theme-accent: var(--theme-text);
+  --theme-accent-2: var(--theme-text);
+  --theme-surface: var(--theme-background);
+  --theme-focused-background: var(--theme-border-subdued);
   --theme-line-height-base: 1.25;
   --font-size: 16px;
 

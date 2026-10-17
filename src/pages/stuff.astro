@@ -1,44 +1,81 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ShowcaseCard from "../components/ShowcaseCard.astro";
-import astroImage from "../assets/astro.svg";
-import backgroundImage from "../assets/background.svg";
-
 const stuff = [
   {
-    href: "https://github.com/jonasnico/terminal",
-    title: "This Website",
+    href: "https://jonasnico.github.io/lingua/",
+    sourceHref: "https://github.com/jonasnico/lingua",
+    title: "Lingua",
     description:
-      "The website you are currently browsing. Links you to the GitHub repo.",
-    image: astroImage.src,
-    tags: ["Astro", "TypeScript", "React", "SCSS"],
+      "A little Spanish, every day. Daily phrases with pronunciation, examples, and practice mode.",
+    tags: ["Astro", "TypeScript"],
   },
   {
-    href: "https://oslo-quiz.vercel.app/quiz",
-    title: "Oslo Quizzes",
-    description: "WIP for looking up quizzes",
-    image: backgroundImage.src,
-    tags: ["Next.js", "React", "Supabase"],
+    href: "https://jonasnico.github.io/infinite-fjords/",
+    sourceHref: "https://github.com/jonasnico/infinite-fjords",
+    title: "Infinite Fjords",
+    description:
+      "Procedurally generated Norwegian landscapes. Explore the fjords or save a view as a PNG.",
+    tags: ["JavaScript", "Generative art"],
+  },
+  {
+    href: "https://dash-nine-pi.vercel.app",
+    sourceHref: "https://github.com/jonasnico/dash",
+    title: "Dash",
+    description:
+      "A password performance lab comparing JavaScript and Rust WebAssembly, with strength analysis and benchmarks.",
+    tags: ["React", "Rust", "WebAssembly"],
+  },
+  {
+    href: "https://jonasnico.github.io/quizzer/",
+    sourceHref: "https://github.com/jonasnico/quizzer",
+    title: "Quizzer",
+    description:
+      "Trivia for solo rounds or real-time multiplayer, powered by the Open Trivia Database.",
+    tags: ["Astro", "React", "PartyKit"],
+  },
+  {
+    href: "https://jonasnico.github.io/cam/",
+    sourceHref: "https://github.com/jonasnico/cam",
+    title: "Cam",
+    description:
+      "A camera-powered instrument. Turn movement into sound and visuals, without recording anything.",
+    tags: ["Three.js", "MediaPipe", "JavaScript"],
+  },
+  {
+    href: "https://github.com/jonasnico/sporfri",
+    sourceHref: "https://github.com/jonasnico/sporfri",
+    title: "Sporfri",
+    description:
+      "Strip tracking parameters and redirect wrappers from links, on iPhone and in Chrome.",
+    tags: ["TypeScript", "Chrome extension", "Scriptable"],
   },
 ];
 ---
 
-<Layout title="Stuff - Jonas N" description="A showcase of my work">
+<Layout
+  title="Stuff - Jonas N"
+  description="Recent projects by Jonas Nicolaysen: language learning, generative landscapes, multiplayer trivia, and small useful tools."
+>
   <h1>Stuff</h1>
-  <p class="subtitle">A selection of stuff I've worked on.</p>
+  <p class="subtitle">Recent experiments, small tools, and things made for fun.</p>
   <div class="card-grid">
     {
       stuff.map((item) => (
         <ShowcaseCard
           href={item.href}
+          sourceHref={item.sourceHref}
           title={item.title}
           description={item.description}
-          image={item.image}
           tags={item.tags}
         />
       ))
     }
   </div>
+  <p class="project-footer">
+    More on <a href="https://github.com/jonasnico">GitHub</a>.
+    This site's <a href="https://github.com/jonasnico/terminal">source</a> is there too.
+  </p>
 </Layout>
 
 <style>
@@ -47,17 +84,25 @@ const stuff = [
     color: var(--theme-accent-2);
     font-family: var(--font-family-mono);
     margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
   .subtitle {
     font-size: 1.2rem;
     color: var(--theme-text-muted);
     margin-bottom: 2rem;
+    line-height: 1.5;
   }
 
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
     gap: 1rem;
+  }
+
+  .project-footer {
+    margin-top: 2rem;
+    color: var(--theme-text-muted);
+    line-height: 1.5;
   }
 </style>

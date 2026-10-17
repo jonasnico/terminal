@@ -1,5 +1,5 @@
 ---
-import { THEME_OPTIONS, DEFAULT_THEME } from "../constants/themes";
+import { THEME_OPTIONS } from "../constants/themes";
 
 interface Props {
   class?: string;
@@ -15,11 +15,12 @@ const themeOptions = THEME_OPTIONS;
     data-theme-button
     aria-label="Select theme"
     aria-expanded="false"
+    aria-controls="theme-options"
   >
     <span data-theme-label>Teal Terminal</span> ▼
   </button>
 
-  <div class="theme-dropdown" data-theme-dropdown style="display: none;">
+  <div id="theme-options" class="theme-dropdown" data-theme-dropdown style="display: none;">
     {
       themeOptions.map((theme) => (
         <button
@@ -35,6 +36,8 @@ const themeOptions = THEME_OPTIONS;
 </div>
 
 <script>
+  import { DEFAULT_THEME } from "../constants/themes";
+
   function initThemeSwitcher() {
     const switcher = document.querySelector("[data-theme-switcher]");
     const button = document.querySelector("[data-theme-button]");
@@ -45,7 +48,7 @@ const themeOptions = THEME_OPTIONS;
     if (!switcher || !button || !dropdown || !label) return;
 
     let isOpen = false;
-    let currentTheme = "${DEFAULT_THEME}";
+    let currentTheme: string = DEFAULT_THEME;
 
     const availableThemes = Array.from(options).map((option) => ({
       value: option.getAttribute("data-theme-option") || "",
@@ -73,7 +76,7 @@ const themeOptions = THEME_OPTIONS;
         currentTheme = initialTheme.value;
         label.textContent = initialTheme.label;
       } else {
-        currentTheme = "${DEFAULT_THEME}";
+        currentTheme = DEFAULT_THEME;
         const defaultThemeOption = availableThemes.find(
           (t) => t.value === currentTheme
         );
@@ -126,6 +129,13 @@ const themeOptions = THEME_OPTIONS;
     document.addEventListener("click", (event) => {
       if (!switcher.contains(event.target as Node) && isOpen) {
         toggleDropdown();
+      }
+    });
+
+    switcher.addEventListener("keydown", (event) => {
+      if (event instanceof KeyboardEvent && event.key === "Escape" && isOpen) {
+        toggleDropdown();
+        (button as HTMLButtonElement).focus();
       }
     });
 
